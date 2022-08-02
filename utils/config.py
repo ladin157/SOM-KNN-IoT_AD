@@ -3,7 +3,7 @@ import os
 # data_path = '../data'
 project_path = os.path.dirname(os.path.dirname(__file__))
 # print(project_path)
-data_path = os.path.join(os.path.dirname(os.path.dirname(project_path)), 'iot-anomaly-detection/data')
+data_path = os.path.join(os.path.dirname(os.path.dirname(project_path)), 'data')
 nbaiot_data_path = os.path.join(data_path, 'nbaiot')
 nbaiot_20K_data_path = os.path.join(data_path, 'nbaiot_20K')
 nbaiot_10K_data_path = os.path.join(data_path, 'nbaiot_10K')

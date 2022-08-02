@@ -31,7 +31,7 @@ Flow:
 '''
 
 
-def som_test(som, winmap, outliers_percentage, scaler, X_test, y_test, using_knn = False):
+def som_test(som, winmap, outliers_percentage, scaler, X_test, y_test, using_algo=False, algo='KNN'):
     # scal data
     print("Shape: ", X_test.shape, y_test.shape)
     print("----------------------Test is starting----------------------")
@@ -44,7 +44,7 @@ def som_test(som, winmap, outliers_percentage, scaler, X_test, y_test, using_knn
     print("Shape: ", X_test.shape, y_test.shape)
     print("Testing")
     test_som(som=som, winmap=winmap, outliers_percentage=outliers_percentage, X_test=X_test,
-             y_test=y_test, using_knn=using_knn)
+             y_test=y_test, using_algo=using_algo, algo=algo)
     print("----------------------Test Done----------------------")
 
 
@@ -80,9 +80,7 @@ def process_train_partial(X_train, y_train, algo='tpe'):
     return som, winmap, outliers_percentage, scaler
 
 
-
 def process_test_partial(X_test, y_test, som, winmap, outliers_percentage, scaler, encoder=None, pca=None):
-    
     som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test,
              y_test=y_test, encoder=encoder, pca=pca)
 

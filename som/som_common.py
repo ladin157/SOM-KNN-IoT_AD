@@ -5,8 +5,10 @@ import math
 import matplotlib.pyplot as plt
 import numpy as np
 from hyperopt import hp, Trials, fmin, tpe, rand, atpe, anneal
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, roc_curve, roc_auc_score
 from sklearn.neighbors import KNeighborsClassifier
+from statsmodels.sandbox.regression.gmm import GMM
 
 from utils import minisom
 from utils.som_utils import som_fn
@@ -32,12 +34,12 @@ def _som_classify(som, winmap, data):  # , X_train, y_train):
     return result
 
 
-def _som_knn_classify(som, winmap, data):
+def _som_classify_different_algo(som, winmap, data, algo='KNN'):
     """
     Classify using KNN-based algorithm
     """
     # results = list()
-    clf = KNeighborsClassifier(n_neighbors=3, p=2)
+
     # positions = list()
     wmap = copy.deepcopy(winmap)
     # get label for position
@@ -51,6 +53,15 @@ def _som_knn_classify(som, winmap, data):
     data_x = [[x[0], x[1]] for x in data_x]
     # convert list of tupple to one dimensional array for data_y
     data_y = [y for y in data_y]
+    n_classes = set(data_y).__len__()
+    if algo.__eq__('KNN'):
+        clf = KNeighborsClassifier(n_neighbors=3, p=2)
+    if algo.__eq__('GMM'):
+        clf = dict((covar_type, GMM(n_components=n_classes,
+                                    covariance_type=covar_type, init_params='wc', n_iter=20))
+                   for covar_type in ['spherical', 'diag', 'tied', 'full'])
+    if algo.__eq__('RF'):
+        clf = RandomForestClassifier(max_depth=2, random_state=0)
     # fit the KNN
     clf.fit(X=data_x, y=data_y)
     # now get SOM output from data
@@ -89,7 +100,7 @@ def _som_clustering(som, data, cluster_index):
     plt.show()
 
 
-def som_classification(som, winmap, X_test, y_test, using_knn=False):
+def som_classification(som, winmap, X_test, y_test, using_algo=False, algo='KNN'):
     '''
     Phan loai cho bengin va cac lop khac.
     '''
@@ -97,8 +108,8 @@ def som_classification(som, winmap, X_test, y_test, using_knn=False):
     # y_train = [i if i == 1 else 2 for i in y_train]
     # chuyen doi label cho y_test
     y_test = [i if i == 1 else 2 for i in y_test]
-    if using_knn:
-        y_pred = _som_knn_classify(som=som, winmap=winmap, data=X_test)
+    if using_algo:
+        y_pred = _som_classify_different_algo(som=som, winmap=winmap, data=X_test, algo=algo)
     else:
         # , X_train=X_train, y_train=y_train)
         y_pred = _som_classify(som=som, winmap=winmap, data=X_test)
@@ -180,7 +191,7 @@ def train_som(X_train, y_train, algo='tpe', som_x=None, som_y=None, sigma=6, lea
     return som_turned, winmap, outliers_percentage
 
 
-def test_som(som, winmap, X_test, y_test, using_knn=False, outliers_percentage=None):
+def test_som(som, winmap, X_test, y_test, using_algo=False, algo='KNN', outliers_percentage=None):
     #     # kiem tra thu voi du lieu huan luyen
     #     quantization_errors = np.linalg.norm(som_turned.quantization(X_train_normalized) - X_train_normalized, axis=1)
     # kiem tra thu voi du lieu test
@@ -206,5 +217,5 @@ def test_som(som, winmap, X_test, y_test, using_knn=False, outliers_percentage=N
     print("SOM classification")
     # som_classification(som=som_turned, X_train=X_train_normalized, y_train=y_train, X_test=X_test_normalized, y_test=y_test)
     som_classification(som=som, winmap=winmap, X_test=X_test,
-                       y_test=y_test, using_knn=using_knn)
+                       y_test=y_test, using_algo=using_algo, algo=algo)
     print("-----------Testing SOM done!-------------")
