@@ -9,6 +9,7 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.metrics import classification_report, confusion_matrix, roc_curve, roc_auc_score
 from sklearn.neighbors import KNeighborsClassifier
 from statsmodels.sandbox.regression.gmm import GMM
+from sklearn import svm, linear_model
 
 from utils import minisom
 from utils.som_utils import som_fn
@@ -56,12 +57,19 @@ def _som_classify_different_algo(som, winmap, data, algo='KNN'):
     n_classes = set(data_y).__len__()
     if algo.__eq__('KNN'):
         clf = KNeighborsClassifier(n_neighbors=3, p=2)
-    if algo.__eq__('GMM'):
-        clf = dict((covar_type, GMM(n_components=n_classes,
-                                    covariance_type=covar_type, init_params='wc', n_iter=20))
-                   for covar_type in ['spherical', 'diag', 'tied', 'full'])
-    if algo.__eq__('RF'):
+    elif algo.__eq__('SVM'): # SVM kernel RBF
+        clf = svm.SVC(kernel='rbf', degree=3, C=1, decision_function_shape='ovo')
+    # if algo.__eq__('GMM'):
+    #     clf = dict((covar_type, GMM(n_components=n_classes,
+    #                                 covariance_type=covar_type, init_params='wc', n_iter=20))
+    #                for covar_type in ['spherical', 'diag', 'tied', 'full'])
+    elif algo.__eq__('SOFTMAX'): # Softmax Regression
+        clf = linear_model.LogisticRegression(C=1e5, solver='lbfgs', multi_class='multinomial')
+
+    elif algo.__eq__('RF'):
         clf = RandomForestClassifier(max_depth=2, random_state=0)
+    else:
+        clf = KNeighborsClassifier(n_neighbors=3, p=2)
     # fit the KNN
     clf.fit(X=data_x, y=data_y)
     # now get SOM output from data
