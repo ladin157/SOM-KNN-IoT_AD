@@ -87,11 +87,18 @@ som, winmap, outliers_percentage, scaler = process_train_partial(X_train=X_train
 '''
 Algo can be:
 - KNN --> K-Nearest Neighbors
-- GMM --> Gaussian Mixture Model
+- SVM --> Gaussian Mixture Model
+- SOFTMAX --> Softmax
 - RF --> Random Forest
 '''
 # som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test_gafgyt,
-#          y_test=y_test_gafgyt, using_algo=True, algo='RF')
+#          y_test=y_test_gafgyt, using_algo=True, algo='KNN')
+
+# som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test_gafgyt,
+#          y_test=y_test_gafgyt, using_algo=True, algo='SVM')
 
 som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test_gafgyt,
-         y_test=y_test_gafgyt, using_algo=True, algo='GMM')
+         y_test=y_test_gafgyt, using_algo=True, algo='SOFTMAX')
+#
+# som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test_gafgyt,
+#          y_test=y_test_gafgyt, using_algo=True, algo='RF')
