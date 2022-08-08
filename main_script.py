@@ -81,24 +81,31 @@ X_test_mirai, _, y_test_mirai, _ = train_test_split(X_test_mirai, y_test_mirai, 
                                                     random_state=1)
 print(X_test_mirai.shape, y_test_mirai.shape)
 
+'''
+Algo can be:
+- rand
+- tpe
+- atpe
+- anneal
+'''
 som, winmap, outliers_percentage, scaler = process_train_partial(X_train=X_train_gafgyt_1, y_train=y_train_gafgyt_1,
-                                                                 algo='rand')
+                                                                 algo='atpe')
 
 '''
 Algo can be:
 - KNN --> K-Nearest Neighbors
 - SVM --> Gaussian Mixture Model
-- SOFTMAX --> Softmax
+- SOFTMAX --> Softmax/
 - RF --> Random Forest
 '''
-# som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test_gafgyt,
-#          y_test=y_test_gafgyt, using_algo=True, algo='KNN')
+som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test_gafgyt,
+         y_test=y_test_gafgyt, using_algo=True, algo='KNN')
 
-# som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test_gafgyt,
-#          y_test=y_test_gafgyt, using_algo=True, algo='SVM')
+som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test_gafgyt,
+         y_test=y_test_gafgyt, using_algo=True, algo='SVM')
 
 som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test_gafgyt,
          y_test=y_test_gafgyt, using_algo=True, algo='SOFTMAX')
-#
-# som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test_gafgyt,
-#          y_test=y_test_gafgyt, using_algo=True, algo='RF')
+
+som_test(som=som, winmap=winmap, outliers_percentage=outliers_percentage, scaler=scaler, X_test=X_test_gafgyt,
+         y_test=y_test_gafgyt, using_algo=True, algo='RF')
