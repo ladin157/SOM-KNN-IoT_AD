@@ -10,19 +10,7 @@ from xgboost import XGBClassifier
 from utils.visualization import plot_confusion_matrix, plot_roc_curve_auc
 
 
-def dt_classify():
-    pass
-
-
-def rf_classify():
-    pass
-
-
-def svm_classify():
-    pass
-
-
-def classify(X_train, y_train, X_test, y_test, algo='DT'):
+def classify_train(X_train, y_train, algo='DT'):
     algo = algo.upper()
     if algo.__eq__('KNN'):
         clf = KNeighborsClassifier(n_neighbors=3, p=2)
@@ -44,9 +32,14 @@ def classify(X_train, y_train, X_test, y_test, algo='DT'):
     else:
         clf = KNeighborsClassifier(n_neighbors=3, p=2)
     clf.fit(X_train, y_train)
+    return clf
+
+
+def classify_test(clf, X_test, y_test):
     y_pred = clf.predict(X_test)
-    y_test = [i if i == 1 else 2 for i in y_test]
-    y_pred = [i if i == 1 else 2 for i in y_pred]
+    print("y_pred unique: ", np.unique(y_pred))
+    y_test = [i if i == 0 else 1 for i in y_test]
+    y_pred = [i if i == 0 else 1 for i in y_pred]
     print(classification_report(y_test, y_pred, digits=3))
     # pretty_plot_confusion_matrix(y_test=y_test, predictions=y_pred)
     # print confusion matrix

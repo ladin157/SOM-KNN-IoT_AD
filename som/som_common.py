@@ -115,14 +115,14 @@ def som_classification(som, winmap, X_test, y_test, using_algo=False, algo='KNN'
     # xu ly cho truong hop 1, tinh lai confusion matrix, benign la lop 1, con lai la lop 2
     # y_train = [i if i == 1 else 2 for i in y_train]
     # chuyen doi label cho y_test
-    y_test = [i if i == 1 else 2 for i in y_test]
+    y_test = [i if i == 0 else 1 for i in y_test]
     if using_algo:
         y_pred = _som_classify_different_algo(som=som, winmap=winmap, data=X_test, algo=algo)
     else:
         # , X_train=X_train, y_train=y_train)
         y_pred = _som_classify(som=som, winmap=winmap, data=X_test)
     # chuyen doi label cho y_pred
-    y_pred = [i if i == 1 else 2 for i in y_pred]
+    y_pred = [i if i == 0 else 1 for i in y_pred]
     print(classification_report(y_test, y_pred, digits=3))
     # pretty_plot_confusion_matrix(y_test=y_test, predictions=y_pred)
     # print confusion matrix

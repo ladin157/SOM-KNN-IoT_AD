@@ -73,18 +73,32 @@ class DataType:
     mirai_udpplain = 'mirai_udpplain'
 
 
+# Labels = {
+#     'benign': 1,
+#     'gafgyt_combo': 2,
+#     'gafgyt_junk': 3,
+#     'gafgyt_scan': 4,
+#     'gafgyt_tcp': 5,
+#     'gafgyt_udp': 6,
+#     'mirai_ack': 2,
+#     'mirai_scan': 3,
+#     'mirai_syn': 4,
+#     'mirai_udp': 5,
+#     'mirai_udpplain': 6
+# }
+
 Labels = {
-    'benign': 1,
-    'gafgyt_combo': 2,
-    'gafgyt_junk': 3,
-    'gafgyt_scan': 4,
-    'gafgyt_tcp': 5,
-    'gafgyt_udp': 6,
-    'mirai_ack': 2,
-    'mirai_scan': 3,
-    'mirai_syn': 4,
-    'mirai_udp': 5,
-    'mirai_udpplain': 6
+    'benign': 0,
+    'gafgyt_combo': 1,
+    'gafgyt_junk': 2,
+    'gafgyt_scan': 3,
+    'gafgyt_tcp': 4,
+    'gafgyt_udp': 5,
+    'mirai_ack': 1,
+    'mirai_scan': 2,
+    'mirai_syn': 3,
+    'mirai_udp': 4,
+    'mirai_udpplain': 5
 }
 
 markers = ['o', 's', 'D', '+', 'v', 'p', '*', 'x', '^', '<', '>', '8']
